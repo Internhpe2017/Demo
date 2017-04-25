@@ -23,4 +23,3 @@ class  git_install {
                 require => Exec["git1"],
              }
 }
-
