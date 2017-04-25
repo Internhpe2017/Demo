@@ -1,0 +1,30 @@
+class mysql::dependencies {
+
+Exec {
+      path => ["/usr/bin", "/bin", "/usr/sbin"]
+     }
+
+file { "/opt/software/mysql" :
+     ensure => "directory",
+     mode => 755,
+     owner =>"root"
+     }
+file { "/opt/software/mysql/mysql.tar.gz":
+     ensure => "present",
+     source => "puppet:///modules/mysql/mysql.tar.gz",
+     owner => root,
+     mode => 755
+     }
+exec { "/opt/software/mysql":
+     cwd => "/opt/software/mysql",
+     command => "tar -xvzf mysql.tar.gz",
+     path => ["/usr/bin", "/bin", "/usr/sbin"],
+     }
+
+exec { "/opt/software/mysql" :
+     cwd => "/opt/software/mysql",
+command => "yum localinstall *.rpm",
+     path => ["/usr/bin", "/bin", "/usr/sbin"],
+        }
+}
+
