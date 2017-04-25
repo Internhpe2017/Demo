@@ -1,0 +1,27 @@
+class gcc::gccpack{
+
+Exec{
+path=>['/bin/','/sbin/','/usr/bin/','/usr/','/usr/sbin/',]
+}
+  
+#$gcc="gcc.tar.gz"
+
+file{"/opt/software/gcc.tar.gz":
+      #	path=>'/opt/software/$gcc',
+	source=>"puppet:///modules/gcc/gcc.tar.gz",
+	ensure=>'present',
+}->
+exec{"untar007":
+	cwd=> '/opt/software/',
+     command=>"tar -xvzf /opt/software/gcc.tar.gz ",
+               
+}
+
+exec{"install":
+	require=>Exec['untar'],
+	command=>"yum localinstall -y *.rpm",	
+	cwd=>'/opt/software/gcc/',
+	timeout=>3600,
+}
+
+}
