@@ -30,35 +30,7 @@ $bin = "atlassian-jira-software-7.2.3-x64.bin"
 	path => ["/sbin/","/usr/bin/","/usr/sbin/","/bin/bash/","/bin/","/usr/local/bin/"],	
 	cwd=>"/opt/software/jira/",
 	command=>"/opt/software/jira/jira.sh",
-	}
-
-#	service {'jira':
-#	require => Exec["script "],
-#	start => "service jira start",
-#	ensure => 'running',
-#	}
-#	service {'jira status':
- #       require => Exec["jira"],
-  #      start => "service jira status",
-   #     }
-
-
-}
-=======
-class install_java
-{
-        $rpm = "jdk-8u121-linux-x64.rpm"
-        file{"$rpm":
-                        path =>"/opt/software/$rpm",
-                        source=>"puppet:///modules/installjava/$rpm",
-                        ensure=>present,
-        }
-        exec{"rpm -ivh /opt/software/$rpm":
-			command=>'rpm -ivh /opt/software/$rpm',
-                        cwd=>'/usr/',
-                        creates=>'/usr/java/jdk1.8.0_121',
-                        path=>['/usr/bin','/usr/sbin',],
-        }
+	}   
 }
 
 
