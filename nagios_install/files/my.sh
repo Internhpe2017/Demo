@@ -9,9 +9,8 @@ send \"admin@123\r\"
 
 
 
+
+
 puts \"Ended expect script.\"
 "
 
-# 3.) create .ran file indicating  was done
-
-touch `which `.ran
