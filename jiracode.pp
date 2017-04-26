@@ -2,11 +2,6 @@ class install_jira::jiracode
 {
 # atlassian (1.bin)+jdk(1.rpm)+mysql(4.rpm)+mysql_connector(1.jar)
 $bin = "atlassian-jira-software-7.2.3-x64.bin"
-	exec{"expect":
-		 command=>"yum install expect -y",
-                 path=>["/bin/","/sbin/","/usr/bin/","/usr/sbin/",],
-	
-	}
 	file{'/opt/software/jira':
         	ensure => 'directory',
 		mode => '755',
@@ -30,8 +25,14 @@ $bin = "atlassian-jira-software-7.2.3-x64.bin"
 	path => ["/sbin/","/usr/bin/","/usr/sbin/","/bin/bash/","/bin/","/usr/local/bin/"],	
 	cwd=>"/opt/software/jira/",
 	command=>"/opt/software/jira/jira.sh",
-	}   
-}
+	}
 
+	file {"mysqlconnector":
+                path=>"/opt/atlassian/jira/lib/mysql-connector-java-5.1.40-bin.jar",
+		ensure=>'present',
+                source => "puppet:///modules/install_jira/mysql-connector-java-5.1.40-bin.jar",
+                mode => '0777',
+        }
+}
 
 
