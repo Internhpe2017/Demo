@@ -1,5 +1,5 @@
 class mysql::dependencies {
-
+$m = hiera('mysql_dependencies','No data')
 Exec {
       path => ["/usr/bin", "/bin", "/usr/sbin"]
      }
@@ -9,22 +9,21 @@ file { "/opt/software/mysql" :
      mode => 755,
      owner =>"root"
      }
-file { "/opt/software/mysql/mysql.tar.gz":
+file { "/opt/software/mysql/$m":
      ensure => "present",
-     source => "puppet:///modules/mysql/mysql.tar.gz",
+     source => "puppet:///modules/mysql/$m",
      owner => root,
      mode => 755
      }
-exec { "/opt/software/mysql":
+exec { "mysql_dependencies untar":
      cwd => "/opt/software/mysql",
-     command => "tar -xvzf mysql.tar.gz",
+     command => "tar -xvzf $m",
      path => ["/usr/bin", "/bin", "/usr/sbin"],
      }
 
-exec { "/opt/software/mysql" :
+exec { "mysql_dependencies localinstall" :
      cwd => "/opt/software/mysql",
 command => "yum localinstall *.rpm",
      path => ["/usr/bin", "/bin", "/usr/sbin"],
         }
 }
-
