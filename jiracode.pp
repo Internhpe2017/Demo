@@ -1,7 +1,12 @@
 class install_jira::jiracode
 {
 # atlassian (1.bin)+jdk(1.rpm)+mysql(4.rpm)+mysql_connector(1.jar)
+
+
 $bin = "atlassian-jira-software-7.2.3-x64.bin"
+#Author Iylin
+require "install_java::javacode"
+
 	file{'/opt/software/jira':
         	ensure => 'directory',
 		mode => '755',
