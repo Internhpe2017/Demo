@@ -3,7 +3,7 @@ class nagios_install::nagplugins
 require'nagios_install::core'
 $plugin=hiera('nagios-plugin','no data')
 $path=hiera('soft_path','no data')
-       
+$plug_path=hiera('nag_plug_path','no data')       
 	file{"$plugin":
                         path =>"${path}/nagios/${plugin}",
                         source=>"puppet:///modules/nagios_install/${plugin}",
@@ -18,21 +18,21 @@ $path=hiera('soft_path','no data')
         }->
 
 	exec{"./configure2":
-                         cwd=>"${path}/nagios/nagios-plugins-2.2.0",
+                         cwd=>"${path}/${plug_path}",
                        command=>'./configure --with-nagios-user=nagios --with-nagios-group=nagios --with-openssl',
-                        path=>['/usr/bin','/usr/sbin',"${path}/nagios/nagios-plugins-2.2.0",],
+                        path=>['/usr/bin','/usr/sbin',"${path}/${plug_path}",],
         }->
 
 	exec{"make2":
-                         cwd=>"${path}/nagios/nagios-plugins-2.2.0",
+                         cwd=>"${path}/${plug_path}",
                        command=>'make',
-                        path=>['/usr/bin','/bin','/sbin','/usr/sbin','${path}/nagios/nagios-plugins-2.2.0',],
+                        path=>['/usr/bin','/bin','/sbin','/usr/sbin','${path}/${plug_path}',],
         }->
 
 	exec{"makeinstall2":
-                         cwd=>"${path}/nagios/nagios-plugins-2.2.0",
+                         cwd=>"${path}/${plug_path}",
                        command=>'make install',
-                        path=>['/usr/bin','/bin','/sbin','/usr/sbin','${path}/nagios/nagios-plugins-2.2.0',],
+                        path=>['/usr/bin','/bin','/sbin','/usr/sbin','${path}/${plug_path}',],
         }
 
 

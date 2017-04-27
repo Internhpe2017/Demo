@@ -2,7 +2,7 @@ class nagios_install::core
 {
 $nag_tar=hiera('nagios','no data')
 $path=hiera('soft_path','no data')
-
+$nag_path=hiera('nag_path','no data')
       file { '/opt/software/nagios/':
                         ensure => 'directory',
                         mode   => '0750',
@@ -41,51 +41,50 @@ $path=hiera('soft_path','no data')
         }->
 
 	exec{"./configure":
-                         cwd=>"${path}/nagios/nagios-4.1.1",
+                         cwd=>"${path}/${nag_path}",
                        command=>'./configure --with-command-group=nagcmd',
-                        path=>['/usr/bin','/usr/sbin',"${path}/nagios/nagios-4.1.1",],
+                        path=>['/usr/bin','/usr/sbin',"${path}/${nag_path}",],
         }->
-
 
 
 	exec{"makeall":
-                         cwd=>"${path}/nagios/nagios-4.1.1",
+                         cwd=>"${path}/${nag_path}",
                        command=>'make all',
-                        path=>['/usr/bin','/bin','/sbin','/usr/sbin','${path}/nagios/nagios-4.1.1',],
+                        path=>['/usr/bin','/bin','/sbin','/usr/sbin','${path}/${nag_path}',],
         }->
 
 	exec{"makeinstall":
-                         cwd=>"${path}/nagios/nagios-4.1.1",
+                         cwd=>"${path}/${nag_path}",
                        command=>'make install',
-                        path=>['/usr/bin','/bin','/sbin','/usr/sbin','${path}/nagios/nagios-4.1.1',],
+                        path=>['/usr/bin','/bin','/sbin','/usr/sbin','${path}/${nag_path}',],
         }->
 
 	exec{"makeinstall_commandmode":
-                         cwd=>"${path}/nagios/nagios-4.1.1",
+                         cwd=>"${path}/${nag_path}",
                        command=>'make install-commandmode',
-                        path=>['/usr/bin','/bin','/sbin','/usr/sbin','${path}/nagios/nagios-4.1.1',],
+                        path=>['/usr/bin','/bin','/sbin','/usr/sbin','${path}/${nag_path}',],
         }->
 
 	exec{"makeinstall_init":
-                         cwd=>"${path}/nagios/nagios-4.1.1",
+                         cwd=>"${path}/${nag_path}",
                        command=>'make install-init',
-                        path=>['/usr/bin','/bin','/sbin','/usr/sbin','${path}/nagios/nagios-4.1.1',],
+                        path=>['/usr/bin','/bin','/sbin','/usr/sbin','${path}/${nag_path}',],
         }->
 
 	exec{"makeinstall_config":
-                         cwd=>"${path}/nagios/nagios-4.1.1",
+                         cwd=>"${path}/${nag_path}",
                        command=>'make install-config',
-                        path=>['/usr/bin','/bin','/sbin','/usr/sbin','${path}/nagios/nagios-4.1.1'],
+                        path=>['/usr/bin','/bin','/sbin','/usr/sbin','${path}/${nag_path}'],
         }->
 
 	exec{"makeinstall_webconf":
-                         cwd=>"${path}/nagios/nagios-4.1.1",
+                         cwd=>"${path}/${nag_path}",
                        command=>'make install-webconf',
-                        path=>['/usr/bin','/bin','/sbin','/usr/sbin','${path}/nagios/nagios-4.1.1',],
+                        path=>['/usr/bin','/bin','/sbin','/usr/sbin','${path}/${nag_path}',],
         }->
 
 	exec{"usermode":
-                         cwd=>"${path}/nagios/nagios-4.1.1",
+                         cwd=>"${path}/${nag_path}",
                        command=>'usermod -G nagcmd apache',
                         path=>['/usr/bin','/usr/sbin',],
         }
